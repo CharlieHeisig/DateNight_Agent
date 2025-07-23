@@ -41,11 +41,9 @@ agent_executor = AgentExecutor(
 raw_response = agent_executor.invoke({
     "query": "What are some romantic date ideas?",
 })
-
-structured_response = parser.parse(raw_response.get("output")["output"])
-print(structured_response)
+print(raw_response)
 
 try:
-    structured_response = parser.parse(raw_response.get("output")["output"])
+    structured_response = parser.parse(raw_response["output"])
 except Exception as e:
     print("Error parsing response:", e, "Raw response:", raw_response)
