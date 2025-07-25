@@ -10,7 +10,7 @@ def get_user_preferences():
     food = input("Any preferred cuisine or dining experience? ")
     vibe = input("Do you want something romantic, fun, adventurous? ")
     activity = input("Any specific activity (movie, hike, museum)? ")
-    time = input("Will this be an afternoon, evening, or weekend plan? ")
+    time = input("Will this be an afternoon, evening, or all day plan? ")
 
     return {
         "location": location,
@@ -43,7 +43,7 @@ Preferences:
 - Activity: {preferences['activity']}
 - Time: {preferences['time']}
 
-Respond with a short 3-step plan, written in a friendly tone.
+Respond with a short 3-step plan, written in a friendly tone. With nothing more than the 3 steps.
 """
 
     response = client.chat.completions.create(
@@ -52,7 +52,7 @@ Respond with a short 3-step plan, written in a friendly tone.
             {"role": "system", "content": "You are a helpful AI date planner."},
             {"role": "user", "content": prompt}
         ],
-        temperature=1.3,
+        temperature=1.0,
         max_tokens=1000
     )
 
