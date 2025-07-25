@@ -24,7 +24,7 @@ class ResearchResponse(BaseModel):
 
 def setup_agent() -> AgentExecutor:
     """Initializes and returns the LangChain agent executor."""
-    llm = ChatOpenAI(model="gpt-4o", temperature=0.2, max_tokens=1000)
+    llm = ChatOpenAI(model="gpt-4o", temperature=0.2, max_tokens=10000)
     parser = PydanticOutputParser(pydantic_object=ResearchResponse)
     prompt = ChatPromptTemplate.from_messages([
         ("system",
@@ -81,3 +81,6 @@ def main() -> None:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     main()
+
+    #Test
+    
