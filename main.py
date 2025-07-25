@@ -1,5 +1,7 @@
 # main.py
-print("✅ main.py is running!")
+
+import openai
+from config import OPENAI_API_KEY
 
 def get_user_preferences():
     print("👋 Welcome to the AI Date Planner!")
@@ -19,14 +21,38 @@ def get_user_preferences():
         "time": time
     }
 
-def generate_plan(prefs):
-    plan = f"\n🌟 Here's your personalized date night plan in {prefs['location']}:\n"
-    plan += f"1. Start with a {prefs['food']} dinner within your {prefs['budget']} budget.\n"
-    plan += f"2. Then enjoy a {prefs['activity']} – perfect for a {prefs['vibe']} vibe.\n"
-    plan += f"3. Timing: Ideal for a {prefs['time']} outing.\n"
-    return plan
+def generate_ai_plan(preferences):
+    openai.api_key = OPENAI_API_KEY
+
+    prompt = f"""
+You are a creative and thoughtful date planning assistant.
+Given the user's preferences below, generate a fun, romantic, and personalized date night plan.
+
+Preferences:
+- Location: {preferences['location']}
+- Budget: {preferences['budget']}
+- Cuisine: {preferences['food']}
+- Vibe: {preferences['vibe']}
+- Activity: {preferences['activity']}
+- Time: {preferences['time']}
+
+Respond with a short 3-step plan, written in a friendly tone.
+"""
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4",  # use "gpt-3.5-turbo" if you don’t have access to GPT-4
+        messages=[
+            {"role": "system", "content": "You are a helpful AI date planner."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.9,
+        max_tokens=300
+    )
+
+    return response['choices'][0]['message']['content']
 
 if __name__ == "__main__":
     prefs = get_user_preferences()
-    plan = generate_plan(prefs)
+    plan = generate_ai_plan(prefs)
+    print("\n💡 Your Personalized Date Plan:\n")
     print(plan)
